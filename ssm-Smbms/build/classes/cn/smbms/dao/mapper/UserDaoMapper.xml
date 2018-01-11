@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.smbms.dao.UserDao">
+
+	<cache></cache>
+	
+	
+	<sql id="userSelectCondition" >
+			
+		where  1=1
+		<if test="user.userRole != 0">
+			and userRole = #{user.userRole}
+		</if>
+		<if test="user.userCode != null and user.userCode != '' ">
+			and (userCode like CONCAT('%',#{user.userCode},'%')
+		</if>
+		<if test="user.userName != null and user.userName != '' ">
+			or userName like CONCAT('%',#{user.userName},'%'))
+		</if>
+	
+	</sql>
+	
+	
+	<select id="getAllUser" resultType="User" >
+		SELECT u.id id, userCode, userName, idPicPath,workPicPath workPiPath, userPassword, 
+		 u.modifyDate modifyDate, u.modifyBy modifyDate, 
+		u.creationDate creationDate, u.createdBy createdBy, userRole, 
+		address, phone, birthday, gender ,r.roleName userRoleName
+		FROM smbms02.smbms_user u inner join 
+		smbms02.smbms_role r on u.userRole = r.id 
+		<include refid="userSelectCondition" ></include>
+		limit #{pageNo},#{size};
+	</select>
+	
+	
+	
+	<select id="getUserCount" resultType="int" parameterType="User">
+		select count(1) as c from smbms_user 
+		<include refid="userSelectCondition"></include>
+		;
+	</select>
+	
+	
+	
+	<sql id="addUserAndUpdate">
+		smbms_user set  
+		 
+		userName=#{userName}, 
+		userPassword=#{userPassword}, 
+		idPicPath=#{idPicPath},
+		workPicPath=#{workPiPath},
+		userRole=#{userRole}, 
+		address=#{address}, 
+		phone=#{phone}, 
+		birthday=#{birthday}, 
+		gender=#{gender},
+	
+	</sql>
+	
+	
+	
+	<insert id="addUser" parameterType="user">
+		
+		insert   <include refid="addUserAndUpdate"></include> 
+		userCode =#{userCode},creationDate= #{creationDate}, createdBy = #{createdBy} 
+		
+		
+		
+	</insert>
+	
+	<update id="updateUserInof" parameterType="user">
+		update <include refid="addUserAndUpdate"></include>
+		modifyDate= #{modifyDate}, modifyBy = #{modifyBy}  where userCode = #{userCode}
+	</update>
+	
+	<select id="isExists" resultType="user">
+		SELECT   id, userCode, userName, idPicPath,workPicPath workpipath, userPassword, 
+				 modifyDate modifyDate, modifyBy modifyDate, 
+				creationDate creationDate, createdBy createdBy, userRole, 
+				address, phone, birthday, gender
+		 FROM smbms02.smbms_user where userCode = #{userCode};
+	</select>
+	
+	<select id="getAllRole" resultType="Role">
+		select id,roleName from smbms_role;	
+	</select>
+	
+	
+	
+	<update id="updateUserPwd">
+	
+		update  smbms_user set userPassword = #{newPwd} where userCode = #{userCode}
+	
+	</update>
+	
+	
+	
+
+</mapper>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.smbms.dao.UsersMapper">
+
+	<select id="findAll" resultType="Users">
+	
+		select * from user;
+	
+	</select>
+
+</mapper>
