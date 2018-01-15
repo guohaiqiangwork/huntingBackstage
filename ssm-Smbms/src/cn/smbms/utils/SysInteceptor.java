@@ -7,7 +7,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import cn.smbms.pojo.User;
 
 public class SysInteceptor extends HandlerInterceptorAdapter {
 	
@@ -18,12 +17,13 @@ public class SysInteceptor extends HandlerInterceptorAdapter {
 		
 		HttpSession session = request.getSession();
 		
-		User user = (User) session.getAttribute("userSession");
-		
-		if(null == user){
-			response.sendRedirect(request.getContextPath()+"/login");
-			return false;
-		}
+//		User user = (User) session.getAttribute("userSession");
+//		
+//		if(null == user){
+//			response.sendRedirect(request.getContextPath()+"/login");
+//			return false;
+//		}
+		System.out.println(request);
 		
 		return true;
 		

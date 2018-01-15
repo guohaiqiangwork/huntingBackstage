@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.smbms.dao.DynamicDao">
+
+<resultMap id="BaseResultMap" type="cn.smbms.pojo.Dynamic" >
+    <id column="idDynamic" property="idDynamic" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="browsingNumber" property="browsingNumber" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="dynamicAddress" property="dynamicAddress" jdbcType="VARCHAR" />
+    <result column="idFile" property="idFile" jdbcType="VARCHAR" />
+  </resultMap>
+
+	<insert id="insert" parameterType="cn.smbms.pojo.Dynamic">
+	insert into dynamic (idDynamic, time, title, type, source, browsingNumber, content, dynamicAddress, idFile)
+    values (#{idDynamic,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, #{title,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{source,jdbcType=VARCHAR}, #{browsingNumber,jdbcType=INTEGER}, 
+      #{content,jdbcType=VARCHAR}, #{dynamicAddress,jdbcType=VARCHAR}, #{idFile,jdbcType=VARCHAR})
+	
+	</insert>
+	
+	<update id="update" parameterType="cn.smbms.pojo.Dynamic" >
+    update dynamic
+    <set >
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="browsingNumber != null" >
+        browsingNumber = #{browsingNumber,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="dynamicAddress != null" >
+        dynamicAddress = #{dynamicAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="idFile != null" >
+        idFile = #{idFile,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where idDynamic = #{idDynamic,jdbcType=VARCHAR}
+  </update>
+  
+  <delete id="delete" parameterType="string" >
+    delete from dynamic
+    where idDynamic = #{idDynamic,jdbcType=VARCHAR}
+  </delete>
+  
+  <select id="dynamic" resultMap="BaseResultMap" parameterType="string" >
+    select * from dynamic
+    where idDynamic = #{idDynamic,jdbcType=VARCHAR}
+  </select>
+  
+  <sql id="pageCondition">
+  		where type=#{dynamic.type}
+	  	<!-- <if test="bi.productname != null and bi.productname != ''">
+	    	and smbms_bill.productname like CONCAT('%',#{bi.productname},'%')
+	    </if>
+	    <if test="bi.proName != null and bi.proName != ''">
+	    	and p.proName like CONCAT('%',#{bi.proName},'%')
+	    </if> -->
+  </sql>
+  
+  <select id="dynamics" resultMap="BaseResultMap">
+    select * from dynamic
+	<include refid="pageCondition" />
+     limit #{pagination.pageIndex},#{pagination.pageSize}
+  </select>
+
+</mapper>
