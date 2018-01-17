@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
 	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
 	xmlns:tx="http://www.springframework.org/schema/tx"
@@ -12,12 +11,13 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
 	<context:component-scan base-package="cn.smbms.service"></context:component-scan>
-	
-	
+
+
 	<!-- 1.. 配置数据源 -->
-	<context:property-placeholder location="classpath:JDBC.properties"/>
-	
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	<context:property-placeholder location="classpath:JDBC.properties" />
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
 		<property name="driverClassName" value="${jdbc.driver}"></property>
 		<property name="url" value="${jdbc.url}"></property>
 		<property name="username" value="${jdbc.username}"></property>
@@ -36,48 +36,60 @@
 		<property name="validationQuery" value="select 1"></property>
 		<property name="timeBetweenEvictionRunsMillis" value="60000"></property>
 		<property name="numTestsPerEvictionRun" value="${maxActive}"></property>
-	
+
 	</bean>
-	
-	
-	
-	
-	
+
+
+
+
+
 	<!-- 2. 配置 sqlsessionFactory -->
-	
+
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
 		<property name="configLocation" value="classpath:mybatis-config.xml"></property>
-		<property name="mapperLocations" >
+		<property name="mapperLocations">
 			<list>
 				<value>classpath:cn/smbms/dao/**/*.xml</value>
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="cn.smbms.dao"></property>
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
 	</bean>
 	<!-- <mybatis-spring:scan base-package="" /> -->
-	
-	
-	
+
+
+
 	<!-- 3. 配置事务 -->
-	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource"></property>	
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 	<!-- 只用注解 添加事务 -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	<!-- 使用Annotation自动注册Bean,扫描@Controller和@ControllerAdvice -->
+	<context:component-scan base-package="com.drskj.apiservice"
+		use-default-filters="false">
+		<!-- base-package 如果多个，用“,”分隔 -->
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+		<!--控制器增强，使一个Contoller成为全局的异常处理类，类中用@ExceptionHandler方法注解的方法可以处理所有Controller发生的异常 -->
+		<context:include-filter type="annotation"
+			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	</context:component-scan>
+
+
+
+
+
+
+
+
+
+
+
 </beans>

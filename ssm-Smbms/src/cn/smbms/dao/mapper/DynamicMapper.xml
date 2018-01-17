@@ -64,19 +64,32 @@
   </select>
   
   <sql id="pageCondition">
-  		where type=#{dynamic.type}
-	  	<!-- <if test="bi.productname != null and bi.productname != ''">
-	    	and smbms_bill.productname like CONCAT('%',#{bi.productname},'%')
+  		
+	  	<if test="null == dynamic.type and null == dynamic.dynamicAddress">
+	    	WHERE 5>(
+				SELECT COUNT(*) 
+				FROM dynamic 
+				WHERE dynamicAddress=a.dynamicAddress and idDynamic>a.idDynamic)
+				ORDER BY a.dynamicAddress;
 	    </if>
-	    <if test="bi.proName != null and bi.proName != ''">
-	    	and p.proName like CONCAT('%',#{bi.proName},'%')
-	    </if> -->
+	    <if test="null == dynamic.type and null != dynamic.dynamicAddress">
+	    	WHERE 5>(
+				SELECT COUNT(*)
+				FROM dynamic 
+				WHERE type=a.type and idDynamic>a.idDynamic)
+				AND a.dynamicAddress=#{dynamic.dynamicAddress}
+				ORDER BY a.type;
+	    </if>
+	    <if test="null != dynamic.type and null != dynamic.dynamicAddress">
+	    	WHERE a.type=#{dynamic.type}
+				AND a.dynamicAddress=#{dynamic.dynamicAddress}
+				limit #{pagination.pageIndex},#{pagination.pageSize};
+	    </if>
   </sql>
   
   <select id="dynamics" resultMap="BaseResultMap">
-    select * from dynamic
+    select * from dynamic a
 	<include refid="pageCondition" />
-     limit #{pagination.pageIndex},#{pagination.pageSize}
   </select>
 
 </mapper>
