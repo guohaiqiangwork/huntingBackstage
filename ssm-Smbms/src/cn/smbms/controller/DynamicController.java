@@ -26,7 +26,7 @@ import cn.smbms.service.DynamicService;
  */
 @Controller
 @RequestMapping("/dynamic")
-public class dynamicController extends BaseController {
+public class DynamicController extends BaseController {
 
 	@Resource
 	private DynamicService dynamicService;
