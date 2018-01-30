@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.smbms.dao.AreaAndClassificationDao">
+
+
+	<insert id="insertArea" parameterType="cn.smbms.pojo.Area">
+	insert into area (idArea, areaName, areaType, relation)
+    values (#{idArea,jdbcType=VARCHAR}, #{areaName,jdbcType=VARCHAR}, #{areaType,jdbcType=INTEGER}, 
+      #{relation,jdbcType=VARCHAR})
+	
+	</insert>
+	
+	<insert id="insertClassification" parameterType="cn.smbms.pojo.Classification">
+	insert into classification (idClassification, className, classType, relation)
+    values (#{idClassification,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR}, #{classType,jdbcType=INTEGER}, 
+      #{relation,jdbcType=VARCHAR})
+	
+	</insert>
+	
+	<update id="updateArea" parameterType="cn.smbms.pojo.Area" >
+    update area
+    <set >
+      <if test="areaName != null" >
+        areaName = #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="areaType != null" >
+        areaType = #{areaType,jdbcType=INTEGER},
+      </if>
+      <if test="relation != null" >
+        relation = #{relation,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where idArea = #{idArea,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateClassification" parameterType="cn.smbms.pojo.Classification" >
+    update classification
+    <set >
+      <if test="className != null" >
+        className = #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="areaType != null" >
+        areaType = #{classType,jdbcType=INTEGER},
+      </if>
+      <if test="relation != null" >
+        relation = #{relation,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where idClassification = #{idClassification,jdbcType=VARCHAR}
+  </update>
+  
+  <delete id="deleteArea" parameterType="string" >
+    delete from area
+    where idArea = #{idArea,jdbcType=VARCHAR}
+  </delete>
+  
+  <delete id="deleteClassification" parameterType="string" >
+    delete from classification
+    where idClassification = #{idClassification,jdbcType=VARCHAR}
+  </delete>
+  
+  <select id="areas" resultType="cn.smbms.pojo.Area" >
+    select * from area
+  </select>
+  
+  <select id="classifications" resultType="cn.smbms.pojo.Classification" >
+    select * from classification
+  </select>
+  
+</mapper>
