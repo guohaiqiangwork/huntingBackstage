@@ -6,12 +6,11 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.alibaba.fastjson.JSON;
 
 import cn.smbms.pojo.Currency;
 import cn.smbms.pojo.Dynamic;
@@ -26,52 +25,52 @@ import cn.smbms.service.DynamicService;
  */
 @Controller
 @RequestMapping("/dynamic")
+@CrossOrigin
 public class DynamicController extends BaseController {
 
 	@Resource
 	private DynamicService dynamicService;
 
-	// public void addData(Currency<Dynamic> currency) {
-	// for(int i=0;i<30;i++) {
-	//
-	//
-	// Date date = new Date();
-	// // 设置id
-	// currency.getData().setIdDynamic(date.getTime() + "");
-	// // 设置操作时间
-	// currency.getData().setTime(date);
-	// currency.getData().setType(i%3+1);
-	// currency.getData().setTitle("标题"+(i%3+1));
-	// currency.getData().setContent("容贼长的内容"+(i%3+1));
-	// switch (i%7) {
-	// case 0:
-	// currency.getData().setDynamicAddress("北京资质");
-	// break;
-	// case 1:
-	// currency.getData().setDynamicAddress("建设部资质");
-	// break;
-	// case 2:
-	// currency.getData().setDynamicAddress("上海资质");
-	// break;
-	// case 3:
-	// currency.getData().setDynamicAddress("山西资质");
-	// break;
-	// case 4:
-	// currency.getData().setDynamicAddress("陕西资质");
-	// break;
-	// case 5:
-	// currency.getData().setDynamicAddress("山东资质");
-	// break;
-	// case 6:
-	// currency.getData().setDynamicAddress("河北资质");
-	// break;
-	// default:
-	// break;
-	// }
-	//
-	// dynamicService.addDynamic(currency.getData());
-	// }
-	// }
+	public void addData(Currency<Dynamic> currency) {
+		for (int i = 0; i < 30; i++) {
+
+			Date date = new Date();
+			// 设置id
+			currency.getData().setIdDynamic(date.getTime() + "");
+			// 设置操作时间
+			currency.getData().setTime(date);
+			currency.getData().setType(i % 3 + 1);
+			currency.getData().setTitle("标题" + (i % 3 + 1));
+			currency.getData().setContent("容贼长的内容" + (i % 3 + 1));
+			switch (i % 7) {
+			case 0:
+				currency.getData().setDynamicAddress("北京资质");
+				break;
+			case 1:
+				currency.getData().setDynamicAddress("建设部资质");
+				break;
+			case 2:
+				currency.getData().setDynamicAddress("上海资质");
+				break;
+			case 3:
+				currency.getData().setDynamicAddress("山西资质");
+				break;
+			case 4:
+				currency.getData().setDynamicAddress("陕西资质");
+				break;
+			case 5:
+				currency.getData().setDynamicAddress("山东资质");
+				break;
+			case 6:
+				currency.getData().setDynamicAddress("河北资质");
+				break;
+			default:
+				break;
+			}
+
+			dynamicService.addDynamic(currency.getData());
+		}
+	}
 
 	/**
 	 * 添加资质动态
@@ -132,7 +131,7 @@ public class DynamicController extends BaseController {
 	public Object dynamic(@RequestBody Dynamic dynamic) {
 
 		Dynamic result = dynamicService.dynamic(dynamic.getIdDynamic() + "");
-		if(null!=result) {
+		if (null != result) {
 			return retContent(200, result);
 		}
 		return retContent(201, result);
@@ -154,7 +153,7 @@ public class DynamicController extends BaseController {
 			currency.setPagination(pagination);
 		}
 		List<Dynamic> result = dynamicService.dynamics(currency);
-		if(null!=result) {
+		if (null != result) {
 			return retContent(200, result);
 		}
 		return retContent(201, result);

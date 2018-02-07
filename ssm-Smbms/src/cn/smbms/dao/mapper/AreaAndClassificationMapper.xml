@@ -51,12 +51,12 @@
   
   <delete id="deleteArea" parameterType="string" >
     delete from area
-    where idArea = #{idArea,jdbcType=VARCHAR}
+    where idArea = #{idArea,jdbcType=VARCHAR} or relation = #{idArea,jdbcType=VARCHAR}
   </delete>
   
   <delete id="deleteClassification" parameterType="string" >
     delete from classification
-    where idClassification = #{idClassification,jdbcType=VARCHAR}
+    where idClassification = #{idClassification,jdbcType=VARCHAR} or relation = #{idClassification,jdbcType=VARCHAR}
   </delete>
   
   <select id="areas" resultType="cn.smbms.pojo.Area" >

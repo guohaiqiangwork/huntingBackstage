@@ -62,7 +62,7 @@
   <sql id="pageCondition">
   		
 	    <if test="null == standard.type or standard.type == 0">
-	    	WHERE 5>(
+	    	WHERE 3>(
 				SELECT COUNT(*)
 				FROM standard 
 				WHERE type=a.type and idStandard>a.idStandard)

@@ -136,7 +136,11 @@
 		</property>
 	</bean>
 
-
+	<!-- 跨域配置 -->
+	
+	<mvc:cors>
+		<mvc:mapping path="/**" />
+	</mvc:cors>
 
 	<!-- 配置拦截器 -->
 
