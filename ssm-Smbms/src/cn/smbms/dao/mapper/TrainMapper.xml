@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.smbms.dao.TrainDao">
+
+	<resultMap id="BaseResultMap" type="cn.smbms.pojo.Train">
+		<id column="idTrain" property="idTrain" jdbcType="VARCHAR" />
+		<result column="time" property="time" jdbcType="TIMESTAMP" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="source" property="source" jdbcType="VARCHAR" />
+		<result column="browsingNumber" property="browsingNumber"
+			jdbcType="INTEGER" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="idFile" property="idFile" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<insert id="insert" parameterType="cn.smbms.pojo.Train">
+		insert into train (idTrain,
+		time, title, type, source, browsingNumber,
+		content, idFile)
+		values
+		(#{idTrain,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP},
+		#{title,jdbcType=VARCHAR},
+		#{type,jdbcType=INTEGER},
+		#{source,jdbcType=VARCHAR}, #{browsingNumber,jdbcType=INTEGER},
+		#{content,jdbcType=VARCHAR}, #{idFile,jdbcType=VARCHAR})
+
+	</insert>
+
+	<update id="update" parameterType="cn.smbms.pojo.Train">
+		update train
+		<set>
+			<if test="time != null">
+				time = #{time,jdbcType=TIMESTAMP},
+			</if>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=INTEGER},
+			</if>
+			<if test="source != null">
+				source = #{source,jdbcType=VARCHAR},
+			</if>
+			<if test="browsingNumber != null">
+				browsingNumber = #{browsingNumber,jdbcType=INTEGER},
+			</if>
+			<if test="content != null">
+				content = #{content,jdbcType=VARCHAR},
+			</if>
+			<if test="idFile != null">
+				idFile = #{idFile,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where idTrain = #{idTrain,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="delete" parameterType="string">
+		delete from train
+		where idTrain
+		= #{idTrain,jdbcType=VARCHAR}
+	</delete>
+
+	<select id="train" resultMap="BaseResultMap" parameterType="string">
+		select * from train
+		where idTrain = #{idTrain,jdbcType=VARCHAR}
+	</select>
+
+	<select id="previous" resultMap="BaseResultMap">
+		select * from train where
+		idTrain =
+		(select idTrain from train where idTrain &lt; #{train.idTrain} and
+		type=#{train.type} order by idTrain DESC
+		limit 1)
+		and
+		type=#{train.type};
+	</select>
+
+	<select id="next" resultMap="BaseResultMap">
+		select * from train where idTrain =
+		(select idTrain from train
+		where idTrain
+		>#{train.idTrain,jdbcType=VARCHAR} and
+		type=#{train.type,jdbcType=VARCHAR} order by idTrain
+		ASC limit 1)
+		and
+		type=#{train.type,jdbcType=VARCHAR};
+	</select>
+
+	<sql id="pageCondition">
+
+		<if test="null == train.type or train.type == 0">
+			WHERE 3>(
+			SELECT COUNT(*)
+			FROM train
+			WHERE type=a.type and
+			idTrain>a.idTrain)
+			ORDER BY a.type;
+		</if>
+		<if test="train.type > 0">
+			WHERE a.type=#{train.type}
+			limit
+			#{pagination.pageIndex},#{pagination.pageSize};
+		</if>
+	</sql>
+
+	<select id="trains" resultMap="BaseResultMap">
+		select * from train a
+		<include refid="pageCondition" />
+	</select>
+
+</mapper>

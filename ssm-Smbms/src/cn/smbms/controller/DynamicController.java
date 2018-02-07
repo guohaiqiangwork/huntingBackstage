@@ -31,44 +31,44 @@ public class DynamicController extends BaseController {
 	@Resource
 	private DynamicService dynamicService;
 
-	public void addData(Currency<Dynamic> currency) {
+	public void addData(Dynamic dynamic) {
 		for (int i = 0; i < 30; i++) {
 
 			Date date = new Date();
 			// 设置id
-			currency.getData().setIdDynamic(date.getTime() + "");
+			dynamic.setIdDynamic(date.getTime() + "");
 			// 设置操作时间
-			currency.getData().setTime(date);
-			currency.getData().setType(i % 3 + 1);
-			currency.getData().setTitle("标题" + (i % 3 + 1));
-			currency.getData().setContent("容贼长的内容" + (i % 3 + 1));
+			dynamic.setTime(date);
+			dynamic.setType(i % 3 + 1);
+			dynamic.setTitle("标题" + (i % 3 + 1));
+			dynamic.setContent("容贼长的内容" + (i % 3 + 1));
 			switch (i % 7) {
 			case 0:
-				currency.getData().setDynamicAddress("北京资质");
+				dynamic.setDynamicAddress("北京资质");
 				break;
 			case 1:
-				currency.getData().setDynamicAddress("建设部资质");
+				dynamic.setDynamicAddress("建设部资质");
 				break;
 			case 2:
-				currency.getData().setDynamicAddress("上海资质");
+				dynamic.setDynamicAddress("上海资质");
 				break;
 			case 3:
-				currency.getData().setDynamicAddress("山西资质");
+				dynamic.setDynamicAddress("山西资质");
 				break;
 			case 4:
-				currency.getData().setDynamicAddress("陕西资质");
+				dynamic.setDynamicAddress("陕西资质");
 				break;
 			case 5:
-				currency.getData().setDynamicAddress("山东资质");
+				dynamic.setDynamicAddress("山东资质");
 				break;
 			case 6:
-				currency.getData().setDynamicAddress("河北资质");
+				dynamic.setDynamicAddress("河北资质");
 				break;
 			default:
 				break;
 			}
 
-			dynamicService.addDynamic(currency.getData());
+			dynamicService.addDynamic(dynamic);
 		}
 	}
 
@@ -79,13 +79,13 @@ public class DynamicController extends BaseController {
 	 */
 	@RequestMapping(value = "/addDynamic", method = RequestMethod.POST)
 	@ResponseBody
-	public Object addDynamic(@RequestBody Currency<Dynamic> currency) {
+	public Object addDynamic(@RequestBody Dynamic dynamic) {
 		Date date = new Date();
 		// 设置id
-		currency.getData().setIdDynamic(date.getTime() + "");
+		dynamic.setIdDynamic(date.getTime() + "");
 		// 设置操作时间
-		currency.getData().setTime(date);
-		int result = dynamicService.addDynamic(currency.getData());
+		dynamic.setTime(date);
+		int result = dynamicService.addDynamic(dynamic);
 
 		return retContent(200, result);
 	}
