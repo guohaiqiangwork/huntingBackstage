@@ -23,7 +23,7 @@
 		(idInformation, time, title, type, QQ, WX, address,
 		sex, phone,
 		mailbox, registrationType, company, idClassification,
-		idArea,certificateType)
+		idArea,certificateCode)
 		values (#{idInformation,jdbcType=VARCHAR},
 		#{time,jdbcType=TIMESTAMP},
 		#{title,jdbcType=VARCHAR},
@@ -34,7 +34,7 @@
 		#{mailbox,jdbcType=VARCHAR},
 		#{registrationType,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR},
 		#{idClassification,jdbcType=VARCHAR},
-		#{idArea,jdbcType=VARCHAR},#{certificateType,jdbcType=VARCHAR})
+		#{idArea,jdbcType=VARCHAR},#{certificateCode,jdbcType=VARCHAR})
 
 	</insert>
 
