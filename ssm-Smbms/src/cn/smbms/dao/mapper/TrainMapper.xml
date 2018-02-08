@@ -89,7 +89,7 @@
 
 	<sql id="pageCondition">
 
-		<if test="null == train.type or train.type == 0">
+		<if test="'' == train.type or null == train.type or train.type == 0">
 			WHERE 3>(
 			SELECT COUNT(*)
 			FROM train
