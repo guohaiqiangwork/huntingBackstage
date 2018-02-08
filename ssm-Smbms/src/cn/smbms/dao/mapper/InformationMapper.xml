@@ -20,61 +20,90 @@
 
 	<insert id="insert" parameterType="cn.smbms.pojo.Information">
 		insert into information
-		(idInformation, time, title, type, QQ, WX, address,
+		(idInformation, time, title, type, QQ, WX,
+		address,
 		sex, phone,
-		mailbox, registrationType, company, idClassification,
+		mailbox, registrationType, company,
+		idClassification,
 		idArea,certificateCode)
-		values (#{idInformation,jdbcType=VARCHAR},
+		values
+		(#{idInformation,jdbcType=VARCHAR},
 		#{time,jdbcType=TIMESTAMP},
 		#{title,jdbcType=VARCHAR},
-		#{type,jdbcType=INTEGER}, #{QQ,jdbcType=VARCHAR},
+		#{type,jdbcType=INTEGER},
+		#{QQ,jdbcType=VARCHAR},
 		#{WX,jdbcType=VARCHAR},
 		#{address,jdbcType=VARCHAR},
-		#{sex,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+		#{sex,jdbcType=VARCHAR},
+		#{phone,jdbcType=VARCHAR},
 		#{mailbox,jdbcType=VARCHAR},
 		#{registrationType,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR},
-		#{idClassification,jdbcType=VARCHAR},
-		#{idArea,jdbcType=VARCHAR},#{certificateCode,jdbcType=VARCHAR})
-
+		<choose>
+			<when test="idClassification == ''">
+				null
+			</when>
+			<otherwise>
+				#{idClassification,jdbcType=VARCHAR}
+			</otherwise>
+		</choose>
+		,
+		<choose>
+			<when test="idArea == ''">
+				null
+			</when>
+			<otherwise>
+				#{idArea,jdbcType=VARCHAR}
+			</otherwise>
+		</choose>
+		,
+		<choose>
+			<when test="certificateCode == ''">
+				null
+			</when>
+			<otherwise>
+				#{certificateCode,jdbcType=VARCHAR}
+			</otherwise>
+		</choose>
+		)
 	</insert>
 
 	<update id="update" parameterType="cn.smbms.pojo.Information">
 		update information
 		<set>
-			<if test="time != null">
+			<if test="time != null and time != ''">
 				time = #{time,jdbcType=TIMESTAMP},
 			</if>
-			<if test="title != null">
+			<if test="title != null and title != ''">
 				title = #{title,jdbcType=VARCHAR},
 			</if>
-			<if test="type != null">
+			<if test="type != null and type != ''">
 				type = #{type,jdbcType=INTEGER},
 			</if>
-			<if test="QQ != null">
+			<if test="QQ != null and QQ != ''">
 				QQ = #{QQ,jdbcType=VARCHAR},
 			</if>
-			<if test="WX != null">
+			<if test="WX != null and WX != ''">
 				WX = #{WX,jdbcType=VARCHAR},
 			</if>
-			<if test="address != null">
+			<if test="address != null and address != ''">
 				address = #{address,jdbcType=VARCHAR},
 			</if>
-			<if test="sex != null">
+			<if test="sex != null and sex != ''">
 				sex = #{sex,jdbcType=VARCHAR},
 			</if>
-			<if test="phone != null">
+			<if test="phone != null and phone != ''">
 				phone = #{phone,jdbcType=VARCHAR},
 			</if>
-			<if test="mailbox != null">
+			<if test="mailbox != null and mailbox != ''">
 				mailbox = #{mailbox,jdbcType=VARCHAR},
 			</if>
-			<if test="registrationType != null">
+			<if test="registrationType != null and registrationType != ''">
 				registrationType = #{registrationType,jdbcType=VARCHAR},
 			</if>
-			<if test="company != null">
+			<if test="company != null and company != ''">
 				company = #{company,jdbcType=VARCHAR},
 			</if>
-			<if test="idClassification != null">
+			<if test="idClassification != null and idClassification != ''">
 				idClassification = #{idClassification,jdbcType=VARCHAR},
 			</if>
 			<if test="idArea != null">
