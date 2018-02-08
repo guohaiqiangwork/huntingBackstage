@@ -16,6 +16,7 @@
 		<result column="company" property="company" jdbcType="VARCHAR" />
 		<result column="className" property="className" jdbcType="VARCHAR" />
 		<result column="areaName" property="areaName" jdbcType="VARCHAR" />
+		<result column="salary" property="salary" jdbcType="VARCHAR" />
 	</resultMap>
 
 	<insert id="insert" parameterType="cn.smbms.pojo.Information">
@@ -24,6 +25,7 @@
 		address,
 		sex, phone,
 		mailbox, registrationType, company,
+		salary,
 		idClassification,
 		idArea,certificateCode)
 		values
@@ -38,6 +40,7 @@
 		#{phone,jdbcType=VARCHAR},
 		#{mailbox,jdbcType=VARCHAR},
 		#{registrationType,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR},
+		#{salary,jdbcType=VARCHAR},
 		<choose>
 			<when test="idClassification == ''">
 				null
@@ -102,6 +105,9 @@
 			</if>
 			<if test="company != null and company != ''">
 				company = #{company,jdbcType=VARCHAR},
+			</if>
+			<if test="salary != null and salary != ''">
+				salary = #{salary,jdbcType=VARCHAR},
 			</if>
 			<if test="idClassification != null and idClassification != ''">
 				idClassification = #{idClassification,jdbcType=VARCHAR},

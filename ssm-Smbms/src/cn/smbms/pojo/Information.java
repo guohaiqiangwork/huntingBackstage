@@ -46,6 +46,16 @@ public class Information {
 	private String areaName;
 	
 	private String certificateName;
+	
+	private String salary;
+	
+	public String getSalary() {
+		return salary;
+	}
+
+	public void setSalary(String salary) {
+		this.salary = salary;
+	}
 
 	public String getIdInformation() {
 		return idInformation;
