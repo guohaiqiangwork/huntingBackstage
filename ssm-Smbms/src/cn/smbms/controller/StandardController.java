@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.smbms.pojo.Currency;
+import cn.smbms.pojo.Detail;
 import cn.smbms.pojo.Pagination;
 import cn.smbms.pojo.Standard;
 import cn.smbms.service.StandardService;
 
 /**
- * 资质动态控制器
+ * 代办资质控制器
  * 
  * @author 若水一涵
  *
@@ -106,7 +107,7 @@ public class StandardController extends BaseController {
 	@ResponseBody
 	public Object standard(@RequestBody Standard standard) {
 
-		Standard result = standardService.standard(standard.getIdStandard() + "");
+		Detail<Standard> result = standardService.standard(standard.getIdStandard() + "");
 		if (null != result) {
 			return retContent(200, result);
 		}

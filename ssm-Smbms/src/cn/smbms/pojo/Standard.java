@@ -2,7 +2,7 @@ package cn.smbms.pojo;
 
 import java.util.Date;
 /**
- * 资质动态实体类
+ * 代办资质实体类
  * @author 若水一涵
  *
  */

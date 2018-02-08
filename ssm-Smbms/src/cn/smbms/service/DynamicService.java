@@ -1,9 +1,11 @@
 package cn.smbms.service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.smbms.pojo.Currency;
+import cn.smbms.pojo.Detail;
 import cn.smbms.pojo.Dynamic;
 
 /**
@@ -38,11 +40,16 @@ public interface DynamicService {
 	 * @param idDynamic
 	 * @return
 	 */
-	public Dynamic dynamic(String idDynamic);
+	public Detail<Dynamic> dynamic(String idDynamic);
 	/**
 	 * 查询列表
 	 * @param currency
 	 * @return
 	 */
 	public List<Dynamic> dynamics(Currency<Dynamic> currency);
+	/**
+	 * 查询左侧菜单
+	 * @return
+	 */
+	public ArrayList<String> dynamicMenu();
 }

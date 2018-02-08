@@ -6,12 +6,15 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import cn.smbms.dao.RelevantDao;
 import cn.smbms.dao.StandardDao;
 import cn.smbms.pojo.Currency;
+import cn.smbms.pojo.Detail;
+import cn.smbms.pojo.Relevant;
 import cn.smbms.pojo.Standard;
 import cn.smbms.service.StandardService;
 /**
- * 资质动态实现类
+ * 代办资质实现类
  * @author 若水一涵
  *
  */
@@ -20,11 +23,22 @@ public class StandardServiceImpl implements StandardService {
 
 	@Resource
 	private StandardDao standardDao;
+	@Resource
+	private RelevantDao relevantDao;
 
 	@Override
 	public int add(Standard standard) {
 		// TODO Auto-generated method stub
-		return standardDao.insert(standard);
+		int result = standardDao.insert(standard);
+		if(result>0) {
+			Relevant relevant = new Relevant();
+			relevant.setIdRelevant(standard.getIdStandard());
+			relevant.setArticleId(standard.getIdStandard());
+			relevant.setArticleTitle(standard.getTitle());
+			relevant.setRelevantModule(2);
+			result = relevantDao.insert(relevant);
+		}
+		return result;
 	}
 
 	@Override
@@ -36,13 +50,29 @@ public class StandardServiceImpl implements StandardService {
 	@Override
 	public int delete(String idStandard) {
 		// TODO Auto-generated method stub
-		return standardDao.delete(idStandard);
+		int result = standardDao.delete(idStandard);
+		if(result>0) {
+			result = relevantDao.delete(idStandard);
+		}
+		return result;
 	}
 
 	@Override
-	public Standard standard(String idStandard) {
+	public Detail<Standard> standard(String idStandard) {
 		// TODO Auto-generated method stub
-		return standardDao.standard(idStandard);
+		Detail<Standard> standard = new Detail<Standard>();
+		// 获取当前文章
+		standard.setCurrent(standardDao.standard(idStandard));
+		// 获取前一篇
+		standard.setPrevious(standardDao.previous(standard.getCurrent()));
+		// 获取下一篇
+		standard.setNext(standardDao.next(standard.getCurrent()));
+		// 关联文章
+		Relevant relevant = new Relevant();
+		relevant.setRelevantId(idStandard);
+		relevant.setRelevantModule(2);
+		standard.setRelevant(relevantDao.relevants(relevant));
+		return standard;
 	}
 
 	@Override

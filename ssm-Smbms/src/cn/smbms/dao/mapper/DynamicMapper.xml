@@ -2,94 +2,147 @@
 <!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.smbms.dao.DynamicDao">
 
-<resultMap id="BaseResultMap" type="cn.smbms.pojo.Dynamic" >
-    <id column="idDynamic" property="idDynamic" jdbcType="VARCHAR" />
-    <result column="time" property="time" jdbcType="TIMESTAMP" />
-    <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="type" property="type" jdbcType="INTEGER" />
-    <result column="source" property="source" jdbcType="VARCHAR" />
-    <result column="browsingNumber" property="browsingNumber" jdbcType="INTEGER" />
-    <result column="content" property="content" jdbcType="VARCHAR" />
-    <result column="dynamicAddress" property="dynamicAddress" jdbcType="VARCHAR" />
-    <result column="idFile" property="idFile" jdbcType="VARCHAR" />
-  </resultMap>
+	<resultMap id="BaseResultMap" type="cn.smbms.pojo.Dynamic">
+		<id column="idDynamic" property="idDynamic" jdbcType="VARCHAR" />
+		<result column="time" property="time" jdbcType="TIMESTAMP" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="source" property="source" jdbcType="VARCHAR" />
+		<result column="browsingNumber" property="browsingNumber"
+			jdbcType="INTEGER" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="dynamicAddress" property="dynamicAddress"
+			jdbcType="VARCHAR" />
+		<result column="idFile" property="idFile" jdbcType="VARCHAR" />
+	</resultMap>
 
 	<insert id="insert" parameterType="cn.smbms.pojo.Dynamic">
-	insert into dynamic (idDynamic, time, title, type, source, browsingNumber, content, dynamicAddress, idFile)
-    values (#{idDynamic,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, #{title,jdbcType=VARCHAR}, 
-      #{type,jdbcType=INTEGER}, #{source,jdbcType=VARCHAR}, #{browsingNumber,jdbcType=INTEGER}, 
-      #{content,jdbcType=VARCHAR}, #{dynamicAddress,jdbcType=VARCHAR}, #{idFile,jdbcType=VARCHAR})
-	
+		insert into dynamic
+		(idDynamic, time, title, type, source, browsingNumber,
+		content,
+		dynamicAddress, idFile)
+		values (#{idDynamic,jdbcType=INTEGER},
+		#{time,jdbcType=TIMESTAMP},
+		#{title,jdbcType=VARCHAR},
+		#{type,jdbcType=INTEGER}, #{source,jdbcType=VARCHAR},
+		#{browsingNumber,jdbcType=INTEGER},
+		#{content,jdbcType=VARCHAR},
+		#{dynamicAddress,jdbcType=VARCHAR},
+		#{idFile,jdbcType=VARCHAR})
+
 	</insert>
-	
-	<update id="update" parameterType="cn.smbms.pojo.Dynamic" >
-    update dynamic
-    <set >
-      <if test="time != null" >
-        time = #{time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="title != null" >
-        title = #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null" >
-        type = #{type,jdbcType=INTEGER},
-      </if>
-      <if test="source != null" >
-        source = #{source,jdbcType=VARCHAR},
-      </if>
-      <if test="browsingNumber != null" >
-        browsingNumber = #{browsingNumber,jdbcType=INTEGER},
-      </if>
-      <if test="content != null" >
-        content = #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="dynamicAddress != null" >
-        dynamicAddress = #{dynamicAddress,jdbcType=VARCHAR},
-      </if>
-      <if test="idFile != null" >
-        idFile = #{idFile,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where idDynamic = #{idDynamic,jdbcType=VARCHAR}
-  </update>
-  
-  <delete id="delete" parameterType="string" >
-    delete from dynamic
-    where idDynamic = #{idDynamic,jdbcType=VARCHAR}
-  </delete>
-  
-  <select id="dynamic" resultMap="BaseResultMap" parameterType="string" >
-    select * from dynamic
-    where idDynamic = #{idDynamic,jdbcType=VARCHAR}
-  </select>
-  
-  <sql id="pageCondition">
-  		
-	  	<if test="null == dynamic.type and null == dynamic.dynamicAddress">
-	    	WHERE 3>(
-				SELECT COUNT(*) 
-				FROM dynamic 
-				WHERE dynamicAddress=a.dynamicAddress and idDynamic>a.idDynamic)
-				ORDER BY a.dynamicAddress;
-	    </if>
-	    <if test="null == dynamic.type and null != dynamic.dynamicAddress">
-	    	WHERE 3>(
-				SELECT COUNT(*)
-				FROM dynamic 
-				WHERE type=a.type and idDynamic>a.idDynamic)
-				AND a.dynamicAddress=#{dynamic.dynamicAddress}
-				ORDER BY a.type;
-	    </if>
-	    <if test="null != dynamic.type and null != dynamic.dynamicAddress">
-	    	WHERE a.type=#{dynamic.type}
-				AND a.dynamicAddress=#{dynamic.dynamicAddress}
-				limit #{pagination.pageIndex},#{pagination.pageSize};
-	    </if>
-  </sql>
-  
-  <select id="dynamics" resultMap="BaseResultMap">
-    select * from dynamic a
-	<include refid="pageCondition" />
-  </select>
+
+	<update id="update" parameterType="cn.smbms.pojo.Dynamic">
+		update dynamic
+		<set>
+			<if test="time != null">
+				time = #{time,jdbcType=TIMESTAMP},
+			</if>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=INTEGER},
+			</if>
+			<if test="source != null">
+				source = #{source,jdbcType=VARCHAR},
+			</if>
+			<if test="browsingNumber != null">
+				browsingNumber = #{browsingNumber,jdbcType=INTEGER},
+			</if>
+			<if test="content != null">
+				content = #{content,jdbcType=VARCHAR},
+			</if>
+			<if test="dynamicAddress != null">
+				dynamicAddress = #{dynamicAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="idFile != null">
+				idFile = #{idFile,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where idDynamic = #{idDynamic,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="delete" parameterType="string">
+		delete from dynamic
+		where
+		idDynamic = #{idDynamic,jdbcType=VARCHAR}
+	</delete>
+
+	<select id="dynamic" resultMap="BaseResultMap" parameterType="string">
+		select * from dynamic
+		where idDynamic = #{idDynamic,jdbcType=VARCHAR}
+	</select>
+
+	<select id="previous" resultMap="BaseResultMap">
+		select * from dynamic where
+		idDynamic =
+		(select idDynamic from dynamic where idDynamic &lt;
+		#{dynamic.idDynamic} and
+		type=#{dynamic.type} AND
+		dynamicAddress=#{dynamic.dynamicAddress} order by idDynamic
+		DESC
+		limit
+		1)
+		and
+		type=#{dynamic.type} AND
+		dynamicAddress=#{dynamic.dynamicAddress};
+	</select>
+
+	<select id="next" resultMap="BaseResultMap">
+		select * from dynamic where
+		idDynamic =
+		(select idDynamic from dynamic
+		where idDynamic
+		>#{dynamic.idDynamic,jdbcType=VARCHAR} and
+		type=#{dynamic.type,jdbcType=VARCHAR} AND
+		dynamicAddress=#{dynamic.dynamicAddress} order by idDynamic
+		ASC limit
+		1)
+		and
+		type=#{dynamic.type,jdbcType=VARCHAR} AND
+		dynamicAddress=#{dynamic.dynamicAddress};
+	</select>
+
+	<sql id="pageCondition">
+
+		<if test="null == dynamic.type and null == dynamic.dynamicAddress">
+			WHERE 3>(
+			SELECT COUNT(*)
+			FROM dynamic
+			WHERE
+			dynamicAddress=a.dynamicAddress and idDynamic>a.idDynamic)
+			ORDER BY
+			a.dynamicAddress;
+		</if>
+		<if test="null == dynamic.type and null != dynamic.dynamicAddress">
+			WHERE 3>(
+			SELECT COUNT(*)
+			FROM dynamic
+			WHERE type=a.type and
+			idDynamic>a.idDynamic)
+			AND a.dynamicAddress=#{dynamic.dynamicAddress}
+			ORDER BY a.type;
+		</if>
+		<if test="null != dynamic.type and null != dynamic.dynamicAddress">
+			WHERE a.type=#{dynamic.type}
+			AND
+			a.dynamicAddress=#{dynamic.dynamicAddress}
+			limit
+			#{pagination.pageIndex},#{pagination.pageSize};
+		</if>
+	</sql>
+
+	<select id="dynamics" resultMap="BaseResultMap">
+		select * from dynamic a
+		<include refid="pageCondition" />
+	</select>
+
+	<select id="dynamicMenu" resultType="string">
+		select dynamicAddress From
+		qualifications.dynamic Where idDynamic In (select Max(idDynamic) From
+		qualifications.dynamic where dynamicAddress is not null Group By
+		dynamicAddress)
+	</select>
 
 </mapper>

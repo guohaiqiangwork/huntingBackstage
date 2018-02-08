@@ -1,5 +1,6 @@
 package cn.smbms.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.smbms.pojo.Currency;
+import cn.smbms.pojo.Detail;
 import cn.smbms.pojo.Dynamic;
 import cn.smbms.pojo.Pagination;
 import cn.smbms.service.DynamicService;
@@ -130,7 +132,7 @@ public class DynamicController extends BaseController {
 	@ResponseBody
 	public Object dynamic(@RequestBody Dynamic dynamic) {
 
-		Dynamic result = dynamicService.dynamic(dynamic.getIdDynamic() + "");
+		Detail<Dynamic> result = dynamicService.dynamic(dynamic.getIdDynamic() + "");
 		if (null != result) {
 			return retContent(200, result);
 		}
@@ -153,6 +155,16 @@ public class DynamicController extends BaseController {
 			currency.setPagination(pagination);
 		}
 		List<Dynamic> result = dynamicService.dynamics(currency);
+		if (null != result) {
+			return retContent(200, result);
+		}
+		return retContent(201, result);
+	}
+	
+	@RequestMapping(value = "/getDynamicMenu", method = RequestMethod.POST)
+	@ResponseBody
+	public Object dynamics() {
+		ArrayList<String> result = dynamicService.dynamicMenu();
 		if (null != result) {
 			return retContent(200, result);
 		}

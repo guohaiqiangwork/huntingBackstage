@@ -4,6 +4,7 @@ package cn.smbms.service;
 import java.util.List;
 
 import cn.smbms.pojo.Currency;
+import cn.smbms.pojo.Detail;
 import cn.smbms.pojo.Standard;
 
 /**
@@ -38,7 +39,7 @@ public interface StandardService {
 	 * @param idStandard
 	 * @return
 	 */
-	public Standard standard(String idStandard);
+	public Detail<Standard> standard(String idStandard);
 	/**
 	 * 查询列表
 	 * @param currency

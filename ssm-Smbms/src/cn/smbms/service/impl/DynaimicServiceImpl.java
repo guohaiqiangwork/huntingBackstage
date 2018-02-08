@@ -1,5 +1,6 @@
 package cn.smbms.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -7,8 +8,11 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import cn.smbms.dao.DynamicDao;
+import cn.smbms.dao.RelevantDao;
 import cn.smbms.pojo.Currency;
+import cn.smbms.pojo.Detail;
 import cn.smbms.pojo.Dynamic;
+import cn.smbms.pojo.Relevant;
 import cn.smbms.service.DynamicService;
 /**
  * 资质动态实现类
@@ -20,11 +24,22 @@ public class DynaimicServiceImpl implements DynamicService {
 
 	@Resource
 	private DynamicDao dynamicDao;
+	@Resource
+	private RelevantDao relevantDao;
 	
 	@Override
 	public int addDynamic(Dynamic dynamic) {
 		// TODO Auto-generated method stub
-		return dynamicDao.insert(dynamic);
+		int result = dynamicDao.insert(dynamic);
+		if(result>0) {
+			Relevant relevant = new Relevant();
+			relevant.setIdRelevant(dynamic.getIdDynamic());
+			relevant.setArticleId(dynamic.getIdDynamic());
+			relevant.setArticleTitle(dynamic.getTitle());
+			relevant.setRelevantModule(1);
+			result = relevantDao.insert(relevant);
+		}
+		return result;
 	}
 
 	@Override
@@ -36,19 +51,41 @@ public class DynaimicServiceImpl implements DynamicService {
 	@Override
 	public int delete(String idDynamic) {
 		// TODO Auto-generated method stub
-		return dynamicDao.delete(idDynamic);
+		int result = dynamicDao.delete(idDynamic);
+		if(result>0) {
+			result = relevantDao.delete(idDynamic);
+		}
+		return result;
 	}
 
 	@Override
-	public Dynamic dynamic(String idDynamic) {
+	public Detail<Dynamic> dynamic(String idDynamic) {
 		// TODO Auto-generated method stub
-		return dynamicDao.dynamic(idDynamic);
+		Detail<Dynamic> dynamic = new Detail<Dynamic>();
+		// 获取当前文章
+		dynamic.setCurrent(dynamicDao.dynamic(idDynamic));
+		// 获取前一篇
+		dynamic.setPrevious(dynamicDao.previous(dynamic.getCurrent()));
+		// 获取下一篇
+		dynamic.setNext(dynamicDao.next(dynamic.getCurrent()));
+		// 关联文章
+		Relevant relevant = new Relevant();
+		relevant.setRelevantId(idDynamic);
+		relevant.setRelevantModule(1);
+		dynamic.setRelevant(relevantDao.relevants(relevant));
+		return dynamic;
 	}
 
 	@Override
 	public List<Dynamic> dynamics(Currency<Dynamic> currency) {
 		// TODO Auto-generated method stub
 		return dynamicDao.dynamics(currency.getData(),currency.getPagination());
+	}
+
+	@Override
+	public ArrayList<String> dynamicMenu() {
+		// TODO Auto-generated method stub
+		return dynamicDao.dynamicMenu();
 	}
 
 }
