@@ -13,7 +13,6 @@
 		<result column="sex" property="sex" jdbcType="VARCHAR" />
 		<result column="phone" property="phone" jdbcType="VARCHAR" />
 		<result column="mailbox" property="mailbox" jdbcType="VARCHAR" />
-		<result column="majorName" property="majorName" jdbcType="VARCHAR" />
 		<result column="company" property="company" jdbcType="VARCHAR" />
 		<result column="className" property="className" jdbcType="VARCHAR" />
 		<result column="areaName" property="areaName" jdbcType="VARCHAR" />
@@ -23,8 +22,7 @@
 		insert into information
 		(idInformation, time, title, type, QQ, WX, address,
 		sex, phone,
-		mailbox,
-		majorCode, registrationType, company, idClassification,
+		mailbox, registrationType, company, idClassification,
 		idArea,certificateType)
 		values (#{idInformation,jdbcType=VARCHAR},
 		#{time,jdbcType=TIMESTAMP},
@@ -34,7 +32,6 @@
 		#{address,jdbcType=VARCHAR},
 		#{sex,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
 		#{mailbox,jdbcType=VARCHAR},
-		#{majorCode,jdbcType=VARCHAR},
 		#{registrationType,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR},
 		#{idClassification,jdbcType=VARCHAR},
 		#{idArea,jdbcType=VARCHAR},#{certificateType,jdbcType=VARCHAR})
@@ -70,9 +67,6 @@
 			</if>
 			<if test="mailbox != null">
 				mailbox = #{mailbox,jdbcType=VARCHAR},
-			</if>
-			<if test="majorCode != null">
-				majorCode = #{majorCode,jdbcType=VARCHAR},
 			</if>
 			<if test="registrationType != null">
 				registrationType = #{registrationType,jdbcType=VARCHAR},
