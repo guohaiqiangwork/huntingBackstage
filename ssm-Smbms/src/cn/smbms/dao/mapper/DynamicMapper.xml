@@ -125,8 +125,7 @@
 			ORDER BY a.type;
 		</if> -->
 		<if test="null != dynamic.dynamicAddress">
-			WHERE a.type=#{dynamic.type}
-			AND
+			WHERE
 			a.dynamicAddress=#{dynamic.dynamicAddress}
 			limit
 			#{pagination.pageIndex},#{pagination.pageSize};
