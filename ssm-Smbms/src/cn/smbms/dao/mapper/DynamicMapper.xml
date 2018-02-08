@@ -106,7 +106,7 @@
 
 	<sql id="pageCondition">
 
-		<if test="null == dynamic.type and null == dynamic.dynamicAddress">
+		<if test="'' == dynamic.dynamicAddress or null == dynamic.dynamicAddress">
 			WHERE 3>(
 			SELECT COUNT(*)
 			FROM dynamic
@@ -115,7 +115,7 @@
 			ORDER BY
 			a.dynamicAddress;
 		</if>
-		<if test="null == dynamic.type and null != dynamic.dynamicAddress">
+		<!-- <if test="null == dynamic.type and null != dynamic.dynamicAddress">
 			WHERE 3>(
 			SELECT COUNT(*)
 			FROM dynamic
@@ -123,8 +123,8 @@
 			idDynamic>a.idDynamic)
 			AND a.dynamicAddress=#{dynamic.dynamicAddress}
 			ORDER BY a.type;
-		</if>
-		<if test="null != dynamic.type and null != dynamic.dynamicAddress">
+		</if> -->
+		<if test="null != dynamic.dynamicAddress">
 			WHERE a.type=#{dynamic.type}
 			AND
 			a.dynamicAddress=#{dynamic.dynamicAddress}
