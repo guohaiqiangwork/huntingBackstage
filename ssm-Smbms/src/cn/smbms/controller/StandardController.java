@@ -4,19 +4,25 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import cn.smbms.pojo.Currency;
 import cn.smbms.pojo.Detail;
+import cn.smbms.pojo.Html;
 import cn.smbms.pojo.Pagination;
 import cn.smbms.pojo.Standard;
 import cn.smbms.service.StandardService;
+import cn.smbms.utils.PoiUtil;
 
 /**
  * 代办资质控制器
@@ -24,6 +30,7 @@ import cn.smbms.service.StandardService;
  * @author 若水一涵
  *
  */
+@MultipartConfig
 @Controller
 @RequestMapping("/standard")
 @CrossOrigin
@@ -55,15 +62,37 @@ public class StandardController extends BaseController {
 	 */
 	@RequestMapping(value = "/addStandard", method = RequestMethod.POST)
 	@ResponseBody
-	public Object addDynamic(@RequestBody Currency<Standard> currency) {
+	public Object addDynamic(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
 		Date date = new Date();
+		Standard standard = new Standard();
 		// 设置id
-		currency.getData().setIdStandard(date.getTime() + "");
+		standard.setIdStandard(date.getTime() + "");
 		// 设置操作时间
-		currency.getData().setTime(date);
-		int result = standardService.add(currency.getData());
-//		addData(currency);
-		
+		standard.setTime(date);
+		// 设置浏览数量
+		standard.setBrowsingNumber(1);
+		// 设置标题
+		standard.setTitle(request.getParameter("title"));
+		// 设置类型
+		String type = request.getParameter("type");
+		standard.setType((type != null && !type.isEmpty()) ? Integer.parseInt(type) : null);
+		Html html = null;
+		try {
+			html = PoiUtil.getHtml(file, request);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return retContent(201, "文件解析出问题了");
+		}
+		if (html != null) {
+			standard.setContent(html.getHtml());
+			standard.setHtmlUrl(html.getImagesParentFileUrl());
+		} else {
+			return retContent(201, "文件解析出问题了");
+		}
+		int result = standardService.add(standard);
+		// addData(currency);
+
 		return retContent(200, result);
 	}
 

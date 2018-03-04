@@ -17,13 +17,14 @@
 	<insert id="insert" parameterType="cn.smbms.pojo.Train">
 		insert into train (idTrain,
 		time, title, type, source, browsingNumber,
-		content, idFile)
+		content, idFile,htmlUrl)
 		values
 		(#{idTrain,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP},
 		#{title,jdbcType=VARCHAR},
 		#{type,jdbcType=INTEGER},
 		#{source,jdbcType=VARCHAR}, #{browsingNumber,jdbcType=INTEGER},
-		#{content,jdbcType=VARCHAR}, #{idFile,jdbcType=VARCHAR})
+		#{content,jdbcType=VARCHAR}, #{idFile,jdbcType=VARCHAR},
+		#{htmlUrl,jdbcType=VARCHAR})
 
 	</insert>
 
@@ -51,6 +52,9 @@
 			<if test="idFile != null">
 				idFile = #{idFile,jdbcType=VARCHAR},
 			</if>
+			<if test="htmlUrl != null">
+				htmlUrl = #{htmlUrl,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where idTrain = #{idTrain,jdbcType=VARCHAR}
 	</update>
@@ -69,7 +73,8 @@
 	<select id="previous" resultMap="BaseResultMap">
 		select * from train where
 		idTrain =
-		(select idTrain from train where idTrain &lt; #{train.idTrain} and
+		(select idTrain from train where idTrain &lt;
+		#{train.idTrain} and
 		type=#{train.type} order by idTrain DESC
 		limit 1)
 		and

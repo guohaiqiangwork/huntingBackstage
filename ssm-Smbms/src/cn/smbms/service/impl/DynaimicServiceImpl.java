@@ -14,8 +14,11 @@ import cn.smbms.pojo.Detail;
 import cn.smbms.pojo.Dynamic;
 import cn.smbms.pojo.Relevant;
 import cn.smbms.service.DynamicService;
+import cn.smbms.utils.Tool;
+
 /**
  * 资质动态实现类
+ * 
  * @author 若水一涵
  *
  */
@@ -26,12 +29,12 @@ public class DynaimicServiceImpl implements DynamicService {
 	private DynamicDao dynamicDao;
 	@Resource
 	private RelevantDao relevantDao;
-	
+
 	@Override
 	public int addDynamic(Dynamic dynamic) {
 		// TODO Auto-generated method stub
 		int result = dynamicDao.insert(dynamic);
-		if(result>0) {
+		if (result > 0) {
 			Relevant relevant = new Relevant();
 			relevant.setIdRelevant(dynamic.getIdDynamic());
 			relevant.setArticleId(dynamic.getIdDynamic());
@@ -50,10 +53,16 @@ public class DynaimicServiceImpl implements DynamicService {
 
 	@Override
 	public int delete(String idDynamic) {
-		// TODO Auto-generated method stub
+		// 获得图片路径
+		Dynamic dynamic = dynamicDao.dynamic(idDynamic);
+		String htmlUrl = dynamic.getHtmlUrl();
+
 		int result = dynamicDao.delete(idDynamic);
-		if(result>0) {
+		if (result > 0) {
 			result = relevantDao.delete(idDynamic);
+			if (htmlUrl != null && !htmlUrl.isEmpty()) {
+				Tool.deFolder(htmlUrl);
+			}
 		}
 		return result;
 	}
@@ -79,7 +88,7 @@ public class DynaimicServiceImpl implements DynamicService {
 	@Override
 	public List<Dynamic> dynamics(Currency<Dynamic> currency) {
 		// TODO Auto-generated method stub
-		return dynamicDao.dynamics(currency.getData(),currency.getPagination());
+		return dynamicDao.dynamics(currency.getData(), currency.getPagination());
 	}
 
 	@Override

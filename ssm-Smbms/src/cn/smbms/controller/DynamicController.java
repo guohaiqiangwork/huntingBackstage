@@ -5,19 +5,25 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import cn.smbms.pojo.Currency;
 import cn.smbms.pojo.Detail;
 import cn.smbms.pojo.Dynamic;
+import cn.smbms.pojo.Html;
 import cn.smbms.pojo.Pagination;
 import cn.smbms.service.DynamicService;
+import cn.smbms.utils.PoiUtil;
 
 /**
  * 资质动态控制器
@@ -25,6 +31,7 @@ import cn.smbms.service.DynamicService;
  * @author 若水一涵
  *
  */
+@MultipartConfig
 @Controller
 @RequestMapping("/dynamic")
 @CrossOrigin
@@ -81,12 +88,36 @@ public class DynamicController extends BaseController {
 	 */
 	@RequestMapping(value = "/addDynamic", method = RequestMethod.POST)
 	@ResponseBody
-	public Object addDynamic(@RequestBody Dynamic dynamic) {
+	public Object addDynamic(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
 		Date date = new Date();
+		Dynamic dynamic = new Dynamic();
 		// 设置id
 		dynamic.setIdDynamic(date.getTime() + "");
 		// 设置操作时间
 		dynamic.setTime(date);
+		// 设置浏览数量
+		dynamic.setBrowsingNumber(1);
+		// 设置标题
+		dynamic.setTitle(request.getParameter("title"));
+		// 设置地址
+		dynamic.setDynamicAddress(request.getParameter("dynamicAddress"));
+		// 设置类型
+		String type = request.getParameter("type");
+		dynamic.setType((type != null && !type.isEmpty())?Integer.parseInt(type):null);
+		Html html = null;
+		try {
+			html = PoiUtil.getHtml(file, request);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return retContent(201, "文件解析出问题了");
+		}
+		if (html != null) {
+			dynamic.setContent(html.getHtml());
+			dynamic.setHtmlUrl(html.getImagesParentFileUrl());
+		} else {
+			return retContent(201, "文件解析出问题了");
+		}
 		int result = dynamicService.addDynamic(dynamic);
 
 		return retContent(200, result);
@@ -160,7 +191,7 @@ public class DynamicController extends BaseController {
 		}
 		return retContent(201, result);
 	}
-	
+
 	@RequestMapping(value = "/getDynamicMenu", method = RequestMethod.POST)
 	@ResponseBody
 	public Object dynamics() {

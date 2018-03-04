@@ -16,11 +16,11 @@
 
 	<insert id="insert" parameterType="cn.smbms.pojo.Standard">
 		insert into standard (idStandard, time, title, type, source, browsingNumber,
-		content, idFile)
+		content, idFile,htmlUrl)
 		values (#{idStandard,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP},
 		#{title,jdbcType=VARCHAR},
 		#{type,jdbcType=INTEGER}, #{source,jdbcType=VARCHAR}, #{browsingNumber,jdbcType=INTEGER},
-		#{content,jdbcType=VARCHAR}, #{idFile,jdbcType=VARCHAR})
+		#{content,jdbcType=VARCHAR}, #{idFile,jdbcType=VARCHAR}, #{htmlUrl,jdbcType=VARCHAR})
 
 	</insert>
 
@@ -47,6 +47,9 @@
 			</if>
 			<if test="idFile != null">
 				idFile = #{idFile,jdbcType=VARCHAR},
+			</if>
+			<if test="htmlUrl != null">
+				htmlUrl = #{htmlUrl,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where idDynamic = #{idDynamic,jdbcType=VARCHAR}

@@ -13,8 +13,11 @@ import cn.smbms.pojo.Detail;
 import cn.smbms.pojo.Relevant;
 import cn.smbms.pojo.Standard;
 import cn.smbms.service.StandardService;
+import cn.smbms.utils.Tool;
+
 /**
  * 代办资质实现类
+ * 
  * @author 若水一涵
  *
  */
@@ -30,7 +33,7 @@ public class StandardServiceImpl implements StandardService {
 	public int add(Standard standard) {
 		// TODO Auto-generated method stub
 		int result = standardDao.insert(standard);
-		if(result>0) {
+		if (result > 0) {
 			Relevant relevant = new Relevant();
 			relevant.setIdRelevant(standard.getIdStandard());
 			relevant.setArticleId(standard.getIdStandard());
@@ -49,10 +52,15 @@ public class StandardServiceImpl implements StandardService {
 
 	@Override
 	public int delete(String idStandard) {
-		// TODO Auto-generated method stub
+		// 获得图片路径
+		Standard standard = standardDao.standard(idStandard);
+		String htmlUrl = standard.getHtmlUrl();
 		int result = standardDao.delete(idStandard);
-		if(result>0) {
+		if (result > 0) {
 			result = relevantDao.delete(idStandard);
+			if (htmlUrl != null && !htmlUrl.isEmpty()) {
+				Tool.deFolder(htmlUrl);
+			}
 		}
 		return result;
 	}
@@ -78,8 +86,7 @@ public class StandardServiceImpl implements StandardService {
 	@Override
 	public List<Standard> standards(Currency<Standard> currency) {
 		// TODO Auto-generated method stub
-		return standardDao.standards(currency.getData(),currency.getPagination());
+		return standardDao.standards(currency.getData(), currency.getPagination());
 	}
-	
 
 }

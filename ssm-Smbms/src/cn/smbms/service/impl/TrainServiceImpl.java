@@ -13,6 +13,7 @@ import cn.smbms.pojo.Detail;
 import cn.smbms.pojo.Relevant;
 import cn.smbms.pojo.Train;
 import cn.smbms.service.TrainService;
+import cn.smbms.utils.Tool;
 
 /**
  * 资质动态实现类
@@ -33,7 +34,7 @@ public class TrainServiceImpl implements TrainService {
 	public int add(Train train) {
 		// TODO Auto-generated method stub
 		int result = trainDao.insert(train);
-		if(result>0) {
+		if (result > 0) {
 			Relevant relevant = new Relevant();
 			relevant.setIdRelevant(train.getIdTrain());
 			relevant.setArticleId(train.getIdTrain());
@@ -52,10 +53,15 @@ public class TrainServiceImpl implements TrainService {
 
 	@Override
 	public int delete(String idTrain) {
-		// TODO Auto-generated method stub
+		// 获得图片路径
+		Train train = trainDao.train(idTrain);
+		String htmlUrl = train.getHtmlUrl();
 		int result = trainDao.delete(idTrain);
-		if(result>0) {
+		if (result > 0) {
 			result = relevantDao.delete(idTrain);
+			if (htmlUrl != null && !htmlUrl.isEmpty()) {
+				Tool.deFolder(htmlUrl);
+			}
 		}
 		return result;
 	}

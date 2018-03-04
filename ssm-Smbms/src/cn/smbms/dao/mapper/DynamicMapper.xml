@@ -20,7 +20,7 @@
 		insert into dynamic
 		(idDynamic, time, title, type, source, browsingNumber,
 		content,
-		dynamicAddress, idFile)
+		dynamicAddress, idFile,htmlUrl)
 		values (#{idDynamic,jdbcType=INTEGER},
 		#{time,jdbcType=TIMESTAMP},
 		#{title,jdbcType=VARCHAR},
@@ -28,7 +28,8 @@
 		#{browsingNumber,jdbcType=INTEGER},
 		#{content,jdbcType=VARCHAR},
 		#{dynamicAddress,jdbcType=VARCHAR},
-		#{idFile,jdbcType=VARCHAR})
+		#{idFile,jdbcType=VARCHAR},
+		#{htmlUrl,jdbcType=VARCHAR})
 
 	</insert>
 
@@ -58,6 +59,9 @@
 			</if>
 			<if test="idFile != null">
 				idFile = #{idFile,jdbcType=VARCHAR},
+			</if>
+			<if test="htmlUrl != null">
+				htmlUrl = #{htmlUrl,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where idDynamic = #{idDynamic,jdbcType=VARCHAR}
