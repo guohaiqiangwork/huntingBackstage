@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+<head id="head">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache,must-revalidate">
+    <meta HTTP-EQUIV="expires" CONTENT="0"><!--清缓存测试-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/><!--清缓存测试ie9-->
+    <meta name="renderer" content="webkit">
+
+
+    <title>hunting</title>
+
+    <script>
+        (function () {
+            //统一版本管理，更改版本后可以防止缓存问题
+            window.NEPTUNE = {
+                version: '1.0.0',//切换统一接口环境，需调整配置文件
+                runMode: 'dev'//运行模式选择dev（测试环境）| uat（预生产环境） |  product（生产环境）
+            };
+
+            var loadStylesWithVersion = function (styles, version) {
+                for (var i = 0; i < styles.length; i++) {
+                    var link = document.createElement("link");
+                    link.rel = "stylesheet";
+                    link.href = styles[i] + "?v=" + version;
+                    document.getElementById('head').appendChild(link);
+                }
+            };
+
+            loadStylesWithVersion([
+                    'assets/css/bootstrap.3.1.1.css',
+                    'assets/css/jedate.css',
+                    'assets/css/switch-buttons.css',
+                    'assets/css/multi-editor.css',
+                    'assets/css/font-awesome.min.css',
+                    'assets/css/neptune.css',
+                    'assets/css/color.css',
+                    'assets/css/mc.bakery-0.0.2.css',
+                    'assets/css/neptune_base.css',
+                    'assets/css/neptune_fonts.css',
+                    'assets/css/color.css',
+                    'assets/css/login.css',
+                    'assets/css/neptune-directive.css',
+                    'assets/css/css/responsive-menu.css',
+                    'assets/css/css/styles.css',
+                    'assets/css/css/base.css',
+                    'assets/css/animate.min.css'
+                ],
+                window.NEPTUNE.version);
+        })();
+    </script>
+    <!--兼容ie8-->
+    <script src="assets/js/es5-shim.js"></script>
+    <script src="assets/js/es5-sham.min.js"></script>
+
+    <script src="assets/js/js/modernizr.min.js"></script>
+    <script src="assets/js/js/modernizr-custom.js"></script>
+    <!--Ie8浏览器下样式-->
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" type="text/css" href="assets/css/ie8.css"/>
+    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome-ie7.min.css"/>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/PIE_IE678.js"></script>
+    <![endif]-->
+    <!--if lt IE 9-->
+    <!--<script src="http://www.AngularJS.cn/wp-content/themes/angularjs/js/HTML5.js" type="text/JavaScript"></script>-->
+</head>
+
+<body id="ng-app" ng-controller="MainCtrl"
+      style="height: 100%;background-color: #F0F0F2;min-width: 1340px;overflow-x: auto;">
+<nav ng-if="loginTarge" class="navbar" role="navigation" style="background: white;margin: 0">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="" style="padding-top: 3px;">
+                <img alt="Brand" src="assets/img/logo1.png" style="line-height: 50px;width: 100px">
+            </a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li ng-class="{'navbar-active':activeIndex===0}" ng-click="navClick(0)" ng-mouseover="tabChange(0)"
+                ng-mouseout="tabChange()"><a>首页</a></li>
+            <li class="dropdown" ng-class="{'navbar-active':activeIndex===6}" ng-mouseover="tabChange(6)"
+                ng-mouseout="tabChange()">
+                <a class="dropdown-toggle" ng-click="navClick(6)" data-toggle="dropdown" role="button"
+                   aria-haspopup="true" aria-expanded="true">证书服务</a>
+                <ul class="dropdown-menu dropdown-inverse">
+                    <li ng-click="navClick(6,'个人挂证')"><a>个人挂证</a></li>
+                    <li ng-click="navClick(6,'企业聘证')"><a>企业聘证</a></li>
+                </ul>
+            </li>
+            <li ng-class="{'navbar-active':activeIndex===5}" ng-click="navClick(5)" ng-mouseover="tabChange(5)"
+                ng-mouseout="tabChange()"><a>全职招聘</a></li>
+            <li class="dropdown" ng-class="{'navbar-active':activeIndex===2}" ng-mouseover="tabChange(2)"
+                ng-mouseout="tabChange()">
+                <a class="dropdown-toggle" ng-click="navClick(2)" data-toggle="dropdown" role="button"
+                   aria-haspopup="true" aria-expanded="true">代办资质</a>
+                <ul class="dropdown-menu dropdown-inverse">
+                    <li ng-click="navClick(2,'总承包资质标准')"><a>总承包资质标准</a></li>
+                    <li ng-click="navClick(2,'专业承包资质标准')"><a>专业承包资质标准</a></li>
+                    <li ng-click="navClick(2,'安全生产许可证')"><a>安全生产许可证</a></li>
+                    <li ng-click="navClick(2,'设计资质标准')"><a>设计资质标准</a></li>
+                    <li ng-click="navClick(2,'其他资质')"><a>其他资质</a></li>
+                </ul>
+            </li>
+
+            <li class="dropdown" ng-class="{'navbar-active':activeIndex===4}" ng-mouseover="tabChange(4)"
+                ng-mouseout="tabChange()">
+                <a class="dropdown-toggle" ng-click="navClick(4)" data-toggle="dropdown" role="button"
+                   aria-haspopup="true" aria-expanded="true">证书培训</a>
+                <ul class="dropdown-menu dropdown-inverse">
+                    <li ng-click="navClick(4,'建造师培训')"><a>建造师培训</a></li>
+                    <li ng-click="navClick(4,'工程师评审')"><a>工程师评审</a></li>
+                    <li ng-click="navClick(4,'岗位证报名')"><a>岗位证报名</a></li>
+                    <li ng-click="navClick(4,'技工证办理')"><a>技工证办理</a></li>
+                </ul>
+            </li>
+            <li ng-class="{'navbar-active':activeIndex===7}" ng-click="navClick(7)" ng-mouseover="tabChange(7)"
+                ng-mouseout="tabChange()"><a>查询中心</a></li>
+            <li class="dropdown" ng-class="{'navbar-active':activeIndex===1}" ng-mouseover="tabChange(1)"
+                ng-mouseout="tabChange()">
+                <a class="dropdown-toggle" ng-click="navClick(1)" data-toggle="dropdown" role="button"
+                   aria-haspopup="true" aria-expanded="true">资质动态</a>
+                <ul class="dropdown-menu dropdown-inverse">
+                    <li ng-click="navClick(1,'建设部资质')"><a>建设部资质</a></li>
+                    <li ng-click="navClick(1,'北京资质')"><a>北京资质</a></li>
+                    <li ng-click="navClick(1,'上海资质')"><a>上海资质</a></li>
+                    <li ng-click="navClick(1,'山西资质')"><a>山西资质</a></li>
+                    <li ng-click="navClick(1,'山东资质')"><a>山东资质</a></li>
+                    <li ng-click="navClick(1,'陕西资质')"><a>陕西资质</a></li>
+                    <li ng-click="navClick(1,'河北资质')"><a>河北资质</a></li>
+                </ul>
+            </li>
+            <li class="dropdown" ng-class="{'navbar-active':activeIndex===8}" ng-mouseover="tabChange(8)"
+                ng-mouseout="tabChange()">
+                <a class="dropdown-toggle" ng-click="navClick(8)" data-toggle="dropdown" role="button"
+                   aria-haspopup="true" aria-expanded="true">关于我们</a>
+                <ul class="dropdown-menu dropdown-inverse">
+                    <li ng-click="navClick(8,'公司简介')"><a>公司简介</a></li>
+                    <li ng-click="navClick(8,'公司文化')"><a>公司文化</a></li>
+                    <li ng-click="navClick(8,'公司团队')"><a>公司团队</a></li>
+                    <li ng-click="navClick(8,'联系我们')"><a>联系我们</a></li>
+                </ul>
+            </li>
+            <li class="dropdown" ng-class="{'navbar-active':activeIndex===9}" ng-mouseover="tabChange(9)"
+                ng-mouseout="tabChange()">
+                <a class="dropdown-toggle" ng-click="navClick(9)" data-toggle="dropdown" role="button"
+                   aria-haspopup="true" aria-expanded="true">网站管理</a>
+                <ul class="dropdown-menu dropdown-inverse">
+                    <li ng-click="navClick(8,'公司文化')"><a>公司文化</a></li>
+                </ul>
+            </li>
+        </ul>
+        <ul>
+            <li data-toggle="modal"
+                data-target="#myModal"
+                ng-click="goToLogin()"
+                class="dropdown-toggle"
+                ng-click="goToLogin()"
+                style="float: left;line-height: 50px;margin-left: 7%">
+                <a>登陆 </a>
+            </li>
+            <li class="dropdown-toggle" style="float: left;margin: 0 3px;line-height: 50px">|</li>
+            <li class="dropdown-toggle" style="float: left;line-height: 50px"  ng-click="goToRegistered()">
+                <a>注册 </a>
+            </li>
+        </ul>
+        </div>
+</nav>
+<!--聊天-->
+<div class="qqChat" ng-if="loginTarge">
+    <div class="content" style="background-color: #5983ED;height: 80px">
+        <img style="position: absolute;width: 38%;height: 80px" class="" src="assets/img/customerService.jpg"/>
+        <span style="position: absolute;top: 11%;right: 30px;font-size: 20px;font-weight: bold;color: white">qq在线客服</span>
+    </div>
+    <div class="row" style="margin-top: 10px" ng-click="qqChat('511421249')">
+        <div class="col-xs-7 col-xs-offset-2 content text-center"
+             style="height:34px;line-height:34px;border: 1px solid #ddd;border-radius:25px;padding: 0 0 0 5%;background-color: #CBDAFF">
+            <img style="position: absolute;top: 0;left: -2px" src="assets/img/qqq.png"/>
+            李老师
+        </div>
+    </div>
+    <div class="row" style="margin-top: 10px" ng-click="qqChat('849060463 ')">
+        <div class="col-xs-7 col-xs-offset-2 content text-center"
+             style="height:34px;line-height:34px;border: 1px solid #ddd;border-radius:25px;padding: 0 0 0 5%;background-color: #CBDAFF">
+            <img style="position: absolute;top: 0;left: -2px" src="assets/img/qqq.png"/>
+            张老师
+        </div>
+    </div>
+    <div class="row" style="margin-top: 10px" ng-click="qqChat('820093796')">
+        <div class="col-xs-7 col-xs-offset-2 content text-center"
+             style="height:34px;line-height:34px;border: 1px solid #ddd;border-radius:25px;padding: 0 0 0 5%;background-color: #CBDAFF">
+            <img style="position: absolute;top: 0;left: -2px" src="assets/img/qqq.png"/>
+            赵老师
+        </div>
+    </div>
+</div>
+<div class="col-xs-12 cancel_col_padding background_gray2" style="position: relative;width:100%;height:100%">
+    <div ui-view="main"></div>
+    <button-border ng-if="loginTarge"></button-border>
+</div>
+<!--动态加载js  -->
+<script>
+    (function () {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "assets/js/requirejs/require.js";
+        script.setAttribute('data-main', 'common/main.js?v=' + window.NEPTUNE.version);
+        document.body.appendChild(script);
+    })();
+</script>
+</body>
+</html>

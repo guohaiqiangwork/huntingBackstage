@@ -80,7 +80,7 @@
 
 
 	<!-- 2.. 使用静态文件 -->
-	<mvc:resources location="/statics/" mapping="/statics/**"></mvc:resources>
+	<mvc:resources location="/WEB-INF/app/" mapping="/app/**"></mvc:resources>
 
 	<!-- 3. 配置 文件上传 -->
 	<bean id="multipartResolver"
@@ -124,11 +124,9 @@
 			<list>
 				<bean
 					class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-					<property name="order" value="2"></property>
-					<property name="prefix" value="/WEB-INF/jsp/"></property>
-					<property name="suffix" value=".jsp"></property>
-					<property name="viewClass"
-						value="org.springframework.web.servlet.view.JstlView" />
+					<property name="prefix" value="/WEB-INF/app/"></property>
+					<property name="suffix" value=".html"></property>
+					<property name="contentType" value="text/html"/>
 				</bean>
 			</list>
 		</property>
