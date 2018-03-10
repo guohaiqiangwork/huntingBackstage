@@ -17,6 +17,7 @@
 		<result column="className" property="className" jdbcType="VARCHAR" />
 		<result column="areaName" property="areaName" jdbcType="VARCHAR" />
 		<result column="salary" property="salary" jdbcType="VARCHAR" />
+		<result column="idAccount" property="idAccount" jdbcType="VARCHAR" />
 	</resultMap>
 
 	<insert id="insert" parameterType="cn.smbms.pojo.Information">
@@ -27,7 +28,7 @@
 		mailbox, registrationType, company,
 		salary,
 		idClassification,
-		idArea,certificateCode)
+		idArea,certificateCode,idAccount)
 		values
 		(#{idInformation,jdbcType=VARCHAR},
 		#{time,jdbcType=TIMESTAMP},
@@ -39,8 +40,10 @@
 		#{sex,jdbcType=VARCHAR},
 		#{phone,jdbcType=VARCHAR},
 		#{mailbox,jdbcType=VARCHAR},
-		#{registrationType,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR},
+		#{registrationType,jdbcType=VARCHAR},
+		#{company,jdbcType=VARCHAR},
 		#{salary,jdbcType=VARCHAR},
+		#{idAccount,jdbcType=VARCHAR},
 		<choose>
 			<when test="idClassification == ''">
 				null
@@ -114,6 +117,9 @@
 			</if>
 			<if test="idArea != null">
 				idArea = #{idArea,jdbcType=VARCHAR},
+			</if>
+			<if test="idAccount != null">
+				idAccount = #{idAccount,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where idInformation = #{idInformation,jdbcType=VARCHAR}

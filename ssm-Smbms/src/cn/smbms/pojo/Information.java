@@ -49,6 +49,16 @@ public class Information {
 	
 	private String salary;
 	
+	private String idAccount;
+	
+	public String getIdAccount() {
+		return idAccount;
+	}
+
+	public void setIdAccount(String idAccount) {
+		this.idAccount = idAccount;
+	}
+
 	public String getSalary() {
 		return salary;
 	}
