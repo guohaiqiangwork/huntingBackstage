@@ -160,10 +160,10 @@
 		WHERE
 		i.type=#{information.type}
 		<if test="information.idArea != null and information.idArea != ''">
-				and i.idArea = #{information.idArea,jdbcType=VARCHAR},
+				and i.idArea = #{information.idArea,jdbcType=VARCHAR}
 		</if>
 		<if test="information.idClassification != null and information.idClassification != ''">
-				and i.idClassification = #{information.idClassification,jdbcType=VARCHAR},
+				and i.idClassification = #{information.idClassification,jdbcType=VARCHAR}
 			</if>
 		limit
 		#{pagination.pageIndex},#{pagination.pageSize}

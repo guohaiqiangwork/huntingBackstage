@@ -4,7 +4,7 @@
 
 	<resultMap id="BaseResultMap" type="cn.smbms.pojo.Account">
 		<id column="idAccount" property="idAccount" jdbcType="VARCHAR" />
-		<result column="userName" property="userName" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
 		<result column="password" property="password" jdbcType="VARCHAR" />
 		<result column="jurisdiction" property="jurisdiction" jdbcType="VARCHAR" />
 		<result column="mailbox" property="mailbox" jdbcType="VARCHAR" />
@@ -12,9 +12,9 @@
 	</resultMap>
 
 	<insert id="insert" parameterType="cn.smbms.pojo.Account">
-		insert into account (idAccount,userName, password, jurisdiction, mailbox, name)
+		insert into account (idAccount,phone, password, jurisdiction, mailbox, name)
 		values
-		(#{idAccount,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
+		(#{idAccount,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
 		#{password,jdbcType=VARCHAR},
 		#{jurisdiction,jdbcType=VARCHAR},
 		#{mailbox,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR})
@@ -23,8 +23,8 @@
 	<update id="update" parameterType="cn.smbms.pojo.Account">
 		update account
 		<set>
-			<if test="userName != null">
-				userName = #{userName,jdbcType=VARCHAR},
+			<if test="phone != null">
+				phone = #{phone,jdbcType=VARCHAR},
 			</if>
 			<if test="password != null">
 				password = #{password,jdbcType=VARCHAR},
@@ -50,7 +50,7 @@
 
 	<select id="login" resultMap="BaseResultMap" parameterType="cn.smbms.pojo.Account">
 		select * from account
-		where userName = #{userName,jdbcType=VARCHAR}
+		where phone = #{phone,jdbcType=VARCHAR}
 		and password = #{password,jdbcType=VARCHAR}
 	</select>
 
