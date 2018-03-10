@@ -7,7 +7,7 @@ package cn.smbms.pojo;
 public class Account {
 	private String idAccount;
 
-	private String userName;
+	private String phone;
 
 	private String password;
 
@@ -16,6 +16,14 @@ public class Account {
 	private String mailbox;
 	
 	private String name;
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 
 	public String getMailbox() {
 		return mailbox;
@@ -39,14 +47,6 @@ public class Account {
 
 	public void setIdAccount(String idAccount) {
 		this.idAccount = idAccount;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
 	}
 
 	public String getPassword() {
