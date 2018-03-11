@@ -48,7 +48,7 @@ public class PoiUtil {
 	public static Html getHtml(MultipartFile source, HttpServletRequest request) throws Exception {
 		// 获取tomcat路径
 		String projectRelUrl = request.getSession().getServletContext().getRealPath("/");
-		projectRelUrl = new File(projectRelUrl).getParentFile().getPath()+"\\ROOT";
+		projectRelUrl = new File(projectRelUrl).getParentFile().getPath()+"/ROOT";
 		
 		Date date = new Date();
 		imagePath = "/images/"+ date.getTime();

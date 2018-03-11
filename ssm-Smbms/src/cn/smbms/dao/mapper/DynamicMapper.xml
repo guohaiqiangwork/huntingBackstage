@@ -143,8 +143,8 @@
 
 	<select id="dynamicMenu" resultType="string">
 		select dynamicAddress From
-		qualifications.dynamic Where idDynamic In (select Max(idDynamic) From
-		qualifications.dynamic where dynamicAddress is not null Group By
+		dynamic Where idDynamic In (select Max(idDynamic) From
+		dynamic where dynamicAddress is not null Group By
 		dynamicAddress)
 	</select>
 

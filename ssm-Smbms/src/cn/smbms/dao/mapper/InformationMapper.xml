@@ -133,9 +133,9 @@
 
 	<select id="information" resultMap="BaseResultMap"
 		parameterType="string">
-		SELECT * FROM qualifications.certificate ce right join
-		(qualifications.classification c right join
-		(qualifications.information i LEFT JOIN qualifications.area a ON
+		SELECT * FROM certificate ce right join
+		(classification c right join
+		(information i LEFT JOIN area a ON
 		i.idArea=a.idArea)
 		on i.idClassification=c.idClassification) on
 		ce.certificateCode =
@@ -147,11 +147,11 @@
 
 	<select id="informations" resultMap="BaseResultMap">
 		SELECT * FROM
-		qualifications.certificate ce right
-		join (qualifications.classification
+		certificate ce right
+		join (classification
 		c right join
-		(qualifications.information i LEFT JOIN
-		qualifications.area a ON
+		(information i LEFT JOIN
+		area a ON
 		i.idArea=a.idArea)
 		on
 		i.idClassification=c.idClassification) on
