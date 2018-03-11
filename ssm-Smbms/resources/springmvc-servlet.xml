@@ -81,6 +81,7 @@
 
 	<!-- 2.. 使用静态文件 -->
 	<mvc:resources location="/WEB-INF/app/" mapping="/app/**"></mvc:resources>
+	<mvc:resources location="/images/" mapping="/images/**"></mvc:resources>
 
 	<!-- 3. 配置 文件上传 -->
 	<bean id="multipartResolver"
